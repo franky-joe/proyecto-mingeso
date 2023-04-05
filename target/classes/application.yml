@@ -1,0 +1,17 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: milkstgo
+  jpa:
+    show-sql: true
+    hibernate:
+      dialect: PostgreSQLDialect
+      ddl-auto: create
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    dbname: My_db
+    url: jdbc:postgresql://localhost:5432/tingeso
+    username: curso
+    password: ruku
