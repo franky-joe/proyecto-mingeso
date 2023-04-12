@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -56,7 +57,7 @@ public class SubirDataService {
     public void leerCsv(String direccion){
         String texto = "";
         BufferedReader bf = null;
-        dataRepository.deleteAll();
+        //dataRepository.deleteAll();
         try{
             bf = new BufferedReader(new FileReader(direccion));
             String temp = "";
@@ -73,6 +74,16 @@ public class SubirDataService {
             }
             texto = temp;
             System.out.println("Archivo leido exitosamente");
+
+            File archivo = new File(direccion);
+
+            if (archivo.delete()) {
+                System.out.println("El archivo fue eliminado exitosamente.");
+            } else {
+                System.out.println("No se pudo eliminar el archivo.");
+            }
+
+
         }catch(Exception e){
             System.err.println("No se encontro el archivo");
         }finally{

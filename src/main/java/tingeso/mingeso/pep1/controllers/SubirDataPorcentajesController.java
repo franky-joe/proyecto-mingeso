@@ -30,7 +30,8 @@ public class SubirDataPorcentajesController {
     public String upload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
         subirData.guardar(file);
         redirectAttributes.addFlashAttribute("mensaje", "¡Archivo cargado correctamente!");
-        subirData.leerCsv("Porcentajes.csv");
+        String nombreArchivo = file.getOriginalFilename();
+        subirData.leerCsv(nombreArchivo);
         return "redirect:/fileUploadPorcentaje";
     }
 
