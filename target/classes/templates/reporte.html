@@ -108,25 +108,60 @@
   <nav>
   </nav>
   <a class="btn" href="/"><button>Volver al menú principal</button></a>
-  <a class="btn-2" href="/fileUpload"><button>Cargar un nuevo .CSV</button></a>
 </header>
 <div align = "center" class = "container my-2">
   <h1><b>Información de Acopio.csv</b></h1>
   <table border = "1" class = "content-table">
     <thead>
     <tr>
-      <th style = "color:white">Fecha</th>
-      <th style = "color:white">Turno</th>
-      <th style = "color:white">Proveedor</th>
-      <th style = "color:white">Kls Leche</th>
+      <th style = "color:white">Quincena</th>
+      <th style = "color:white">Codigo Prov</th>
+      <th style = "color:white">Nombre Prov</th>
+
+      <th style = "color:white">Kg Leche </th>
+      <th style = "color:white">Dias Envio Leche</th>
+      <th style = "color:white">Prom Diario Kilos Leche</th>
+      <th style = "color:white">% Var Leche</th>
+      <th style = "color:white">% Var Grasa</th>
+      <th style = "color:white">% ST</th>
+      <th style = "color:white">% Var ST</th>
+      <th style = "color:white">Pago Leche </th>
+      <th style = "color:white">Pago Grasa</th>
+      <th style = "color:white">Pago ST</th>
+      <th style = "color:white">Bonificacion Frecuencia</th>
+      <th style = "color:white">Desc Var Leche</th>
+      <th style = "color:white">Desc Var Grasa</th>
+      <th style = "color:white">Des Var ST</th>
+      <th style = "color:white">Pago Total</th>
+      <th style = "color:white">Monto Retencion</th>
+      <th style = "color:white">Monto Final</th>
+
     </tr>
     </thead>
     <tbody>
     <tr th:each="data:${dataReporte}">
-      <td th:text="${data.nombreProveedor}"></td>
+      <td th:text="${data.quincena}"></td>
       <td th:text="${data.codigoProveedor}"></td>
+      <td th:text="${data.nombreProveedor}"></td>
+
+      <td th:text="${data.totalKilosLeche}"></td>
+      <td th:text="${data.numeroDiasEnvioLeche}"></td>
+      <td th:text="${data.promedioDiarioKilosLeche}"></td>
+      <td th:text="${data.porcentajeVariacionLeche}"></td>
+      <td th:text="${data.porcentajeVariacionGrasa}"></td>
+      <td th:text="${data.porcentajeSolidosTotales}"></td>
+      <td th:text="${data.porcentajeVariacionSolidosTotales}"></td>
+      <td th:text="${data.pagoPorLeche}"></td>
       <td th:text="${data.pagoPorGrasa}"></td>
       <td th:text="${data.pagoPorSolidosTotales}"></td>
+      <td th:text="${data.bonificacionPorFrecuencia}"></td>
+      <td th:text="${data.descuentoVariacionLeche}"></td>
+      <td th:text="${data.descuentoVariacionGrasa}"></td>
+      <td th:text="${data.descuentoVariacionSolidosTotales}"></td>
+      <td th:text="${data.pagoTotal}"></td>
+      <td th:text="${data.montoRetencion}"></td>
+      <td th:text="${data.montoFinal}"></td>
+
     </tr>
     </tbody>
   </table>

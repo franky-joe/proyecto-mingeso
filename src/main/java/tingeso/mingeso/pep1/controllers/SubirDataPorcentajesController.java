@@ -38,9 +38,7 @@ public class SubirDataPorcentajesController {
     @GetMapping("/fileInformationPorcentaje")
     public String listar(Model model) {
         ArrayList<SubirDataPorcentajeEntity> datasPorcentaje = subirData.obtenerData();
-
         model.addAttribute("datasPorcentaje", datasPorcentaje);
-
         return "fileInformationPorcentaje";
     }
 }

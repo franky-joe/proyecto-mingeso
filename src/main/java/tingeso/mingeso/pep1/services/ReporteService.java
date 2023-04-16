@@ -1,5 +1,6 @@
 package tingeso.mingeso.pep1.services;
 
+import jdk.jfr.ValueDescriptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tingeso.mingeso.pep1.entities.ProveedorEntity;
@@ -17,10 +18,16 @@ import java.util.ArrayList;
 public class ReporteService {
 
     @Autowired
-    private ReporteRepository reporteRepository;
-    public ArrayList<ReporteEntity> obtenerData(){
-        return (ArrayList<ReporteEntity>) reporteRepository.findAll();
+    private ReporteRepository repository;
+    public Void guardarReporte(ReporteEntity reporte){
+        repository.save(reporte);
+        return null;
     }
+
+    public ArrayList<ReporteEntity> obtenerData(){
+        return (ArrayList<ReporteEntity>) repository.findAll();
+    }
+
 
     /*
     @Autowired
