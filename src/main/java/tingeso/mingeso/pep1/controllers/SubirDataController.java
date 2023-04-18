@@ -1,6 +1,7 @@
 package tingeso.mingeso.pep1.controllers;
 
 import tingeso.mingeso.pep1.entities.SubirDataEntity;
+import tingeso.mingeso.pep1.services.CalcularReporte;
 import tingeso.mingeso.pep1.services.SubirDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,8 @@ public class SubirDataController {
 
     @Autowired
     private SubirDataService subirData;
+    @Autowired
+    private CalcularReporte calcularReporte;
 
     @GetMapping("/fileUpload")
     public String main() {
@@ -28,10 +31,19 @@ public class SubirDataController {
 
     @PostMapping("/fileUpload")
     public String upload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+        ArrayList<SubirDataEntity> arrayAcopio = new ArrayList<>();
         subirData.guardar(file);
         String nombreArchivo = file.getOriginalFilename();
         redirectAttributes.addFlashAttribute("mensaje", "¡Archivo cargado correctamente!");
-        subirData.leerCsv(nombreArchivo);
+        arrayAcopio =  subirData.leerCsv(nombreArchivo);
+
+        for(SubirDataEntity data : arrayAcopio){
+            System.out.println(data);
+        }
+
+        calcularReporte.calcularReporte(arrayAcopio);
+
+
         return "redirect:/fileUpload";
     }
 

@@ -54,7 +54,9 @@ public class SubirDataService {
     }
 
     @Generated
-    public void leerCsv(String direccion){
+    public ArrayList<SubirDataEntity> leerCsv(String direccion){
+        ArrayList<SubirDataEntity> arregloAcopio = new ArrayList<>();
+
         String texto = "";
         BufferedReader bf = null;
         //dataRepository.deleteAll();
@@ -68,7 +70,14 @@ public class SubirDataService {
                     count = 0;
                 }
                 else{
-                    guardarDataDB(bfRead.split(";")[0], bfRead.split(";")[1], bfRead.split(";")[2], bfRead.split(";")[3]);
+                    SubirDataEntity acopio = new SubirDataEntity();
+                    acopio.setFecha(bfRead.split(";")[0]);
+                    acopio.setTurno(bfRead.split(";")[1]);
+                    acopio.setProveedor(bfRead.split(";")[2]);
+                    acopio.setKls_leche(bfRead.split(";")[3]);
+                    arregloAcopio.add(acopio);
+                    guardarData(acopio);
+                    //guardarDataDB(bfRead.split(";")[0], bfRead.split(";")[1], bfRead.split(";")[2], bfRead.split(";")[3]);
                     temp = temp + "\n" + bfRead;
                 }
             }
@@ -95,6 +104,7 @@ public class SubirDataService {
                 }
             }
         }
+        return arregloAcopio;
     }
 
     public void guardarData(SubirDataEntity data){

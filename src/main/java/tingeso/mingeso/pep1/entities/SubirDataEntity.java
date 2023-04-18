@@ -22,4 +22,6 @@ public class SubirDataEntity {
     private String proveedor;
     private String kls_leche;
 
+
+
 }

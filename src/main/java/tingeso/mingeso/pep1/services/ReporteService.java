@@ -21,9 +21,9 @@ public class ReporteService {
     private ReporteRepository repository;
     public Void guardarReporte(ReporteEntity reporte){
         repository.save(reporte);
+
         return null;
     }
-
     public ArrayList<ReporteEntity> obtenerData(){
         return (ArrayList<ReporteEntity>) repository.findAll();
     }

@@ -111,13 +111,13 @@
 </header>
 <div align = "center" class = "container my-2">
   <h1><b>Información de Acopio.csv</b></h1>
-  <table border = "1" class = "content-table">
+  <table border = "1" class = "content-table" style="margin-left: -100px">
     <thead>
     <tr>
+      <th style = "color:white">Id</th>
       <th style = "color:white">Quincena</th>
       <th style = "color:white">Codigo Prov</th>
       <th style = "color:white">Nombre Prov</th>
-
       <th style = "color:white">Kg Leche </th>
       <th style = "color:white">Dias Envio Leche</th>
       <th style = "color:white">Prom Diario Kilos Leche</th>
@@ -140,10 +140,10 @@
     </thead>
     <tbody>
     <tr th:each="data:${dataReporte}">
+      <td th:text="${data.id}"></td>
       <td th:text="${data.quincena}"></td>
       <td th:text="${data.codigoProveedor}"></td>
       <td th:text="${data.nombreProveedor}"></td>
-
       <td th:text="${data.totalKilosLeche}"></td>
       <td th:text="${data.numeroDiasEnvioLeche}"></td>
       <td th:text="${data.promedioDiarioKilosLeche}"></td>

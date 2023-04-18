@@ -28,6 +28,13 @@ public class ReportController {
        model.addAttribute("dataReporte", dataReporte);
        return "reporte";
     }
+    @GetMapping("/subir0")
+    public String sugir0(){
+        ReporteEntity nuevoReporte = new ReporteEntity();
+        nuevoReporte.dejarEnCero();
+        //nuevoReporte.
+        return "reporte";
+    }
 
 
 }

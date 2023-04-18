@@ -39,7 +39,7 @@ public class ReporteEntity {
     private Float montoFinal;
 
     public Void dejarEnCero(){
-        setId(1);
+        //setId(1);
         setQuincena("12");
         setCodigoProveedor("12345");
         setNombreProveedor("franco");
