@@ -4,11 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tingeso.mingeso.pep1.entities.ReporteEntity;
 import tingeso.mingeso.pep1.entities.SubirDataEntity;
+import tingeso.mingeso.pep1.entities.SubirDataPorcentajeEntity;
 import tingeso.mingeso.pep1.repositories.ProveedorRepository;
 import tingeso.mingeso.pep1.repositories.ReporteRepository;
+import tingeso.mingeso.pep1.repositories.SubirDataProcentajeRepository;
 import tingeso.mingeso.pep1.repositories.SubirDataRepository;
 
+import javax.persistence.GeneratedValue;
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class CalcularReporte {
@@ -16,15 +20,10 @@ public class CalcularReporte {
     @Autowired
     private ReporteRepository reporteRepository;
     @Autowired
-    private ProveedorService proveedorService;
-    @Autowired
-    private SubirDataService acopioService;
-    @Autowired
-    private SubirDataPorcentajeService porcentajeService;
-    @Autowired
-    private SubirDataRepository subirDataRepository;
-    @Autowired
     private ProveedorRepository proveedorRepository;
+    @Autowired
+    private SubirDataProcentajeRepository subirDataProcentajeRepository;
+
 
     public String calcularReporte( ArrayList<SubirDataEntity> arrayAcopio){
 
@@ -54,7 +53,7 @@ public class CalcularReporte {
                 Integer diaActual = Integer.parseInt(partes1[2]);
 
 
-                if(datoAcopio.getProveedor() == data.getProveedor()){
+                if(datoAcopio.getProveedor().equals(data.getProveedor()) ){
                     if("M".equals(data.getTurno())){
                         manana++;
                     }
@@ -78,12 +77,35 @@ public class CalcularReporte {
             }
             reporteNuevo.setTotalKilosLeche(klsLecheTotales);
             reporteNuevo.setNombreProveedor(proveedorRepository.findByCodigo(datoAcopio.getProveedor()).getNombre());
+            reporteNuevo.setNumeroDiasEnvioLeche(diasEnviaLecheQuincena);
+            reporteNuevo.setPromedioDiarioKilosLeche((float) klsLecheTotales/diasEnviaLecheQuincena);
+            reporteNuevo.setCodigoProveedor(datoAcopio.getProveedor());
+
+
+            // Porcentajes
+            ArrayList<SubirDataPorcentajeEntity> listaPorcentajes = (ArrayList<SubirDataPorcentajeEntity>) subirDataProcentajeRepository.findAll();
+            SubirDataPorcentajeEntity porcentajes = new SubirDataPorcentajeEntity();
+            Float porcentajeGrasa = null;
+            Float porcentajeST = null;
+            for(SubirDataPorcentajeEntity por : listaPorcentajes){
+                System.out.println(por);
+                System.out.println(datoAcopio.getProveedor());
+                Float codigoPor = Float.parseFloat(por.getCodigoProveedor()) ;
+                Float codigoComparar = Float.parseFloat(datoAcopio.getProveedor());
+                if(codigoPor.equals(codigoComparar)){
+                    System.out.println(por);
+                    System.out.println("por");
+                    System.out.println("joooooooo");
+                    porcentajeGrasa = Float.parseFloat(por.getPorcentajeGrasa());
+                    porcentajeST = Float.parseFloat(por.getPorcentajeSolido());
+                }
+            }
+            reporteNuevo.setPorcentajeGrasa(porcentajeGrasa);
+            reporteNuevo.setPorcentajeGrasa(porcentajeST);
             reporteRepository.save(reporteNuevo);
-
         }
-
-
         return "0";
     }
+
 }
 

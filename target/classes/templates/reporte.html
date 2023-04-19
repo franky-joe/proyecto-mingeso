@@ -121,10 +121,11 @@
       <th style = "color:white">Kg Leche </th>
       <th style = "color:white">Dias Envio Leche</th>
       <th style = "color:white">Prom Diario Kilos Leche</th>
-      <th style = "color:white">% Var Leche</th>
-      <th style = "color:white">% Var Grasa</th>
+      <th style = "color:white">% Grasa</th>
+      <!--<th style = "color:white">% Var Leche</th>
+      <th style = "color:white">% Var Grasa</th> -->
       <th style = "color:white">% ST</th>
-      <th style = "color:white">% Var ST</th>
+     <!-- <th style = "color:white">% Var ST</th> -->
       <th style = "color:white">Pago Leche </th>
       <th style = "color:white">Pago Grasa</th>
       <th style = "color:white">Pago ST</th>
@@ -147,10 +148,12 @@
       <td th:text="${data.totalKilosLeche}"></td>
       <td th:text="${data.numeroDiasEnvioLeche}"></td>
       <td th:text="${data.promedioDiarioKilosLeche}"></td>
-      <td th:text="${data.porcentajeVariacionLeche}"></td>
-      <td th:text="${data.porcentajeVariacionGrasa}"></td>
+      <td th:text="${data.porcentajeGrasa}"></td>
+
+      <!--<td th:text="${data.porcentajeVariacionLeche}"></td>
+      <td th:text="${data.porcentajeVariacionGrasa}"></td>-->
       <td th:text="${data.porcentajeSolidosTotales}"></td>
-      <td th:text="${data.porcentajeVariacionSolidosTotales}"></td>
+      <!--<td th:text="${data.porcentajeVariacionSolidosTotales}"></td>-->
       <td th:text="${data.pagoPorLeche}"></td>
       <td th:text="${data.pagoPorGrasa}"></td>
       <td th:text="${data.pagoPorSolidosTotales}"></td>

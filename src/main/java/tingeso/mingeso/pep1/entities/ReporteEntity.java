@@ -24,6 +24,7 @@ public class ReporteEntity {
     private Integer numeroDiasEnvioLeche;
     private Float promedioDiarioKilosLeche;
     private Float porcentajeVariacionLeche;
+    private Float PorcentajeGrasa;
     private Float porcentajeVariacionGrasa;
     private Float porcentajeSolidosTotales;
     private Float porcentajeVariacionSolidosTotales;
