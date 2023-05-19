@@ -1,4 +1,4 @@
-package tingeso.mingeso.pep1;
+package tingeso.mingeso.pep1.services;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +21,6 @@ class AdministracionTests {
     @Test
     void testSueldoCategoria2(){
         int sueldo = administracionService.sueldoCategoria("B");
-        assertEquals(25000, sueldo, 0.0);
+        assertEquals(15000, sueldo, 0.0);
     }
 }

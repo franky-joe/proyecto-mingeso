@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: tingeso.mingeso.pep1.AdministracionTests
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.027 s <<< FAILURE! - in tingeso.mingeso.pep1.AdministracionTests
+testSueldoCategoria2  Time elapsed: 0.002 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <25000.0> but was: <15000.0>
+	at tingeso.mingeso.pep1.AdministracionTests.testSueldoCategoria2(AdministracionTests.java:24)
+

@@ -93,13 +93,14 @@ public class SubirDataPorcentajeService {
     public void guardarData(SubirDataPorcentajeEntity data){
         repository.save(data);
     }
-    public void guardarDataDB(String codigoProveedor, String porcentajeGrasa, String porcentajeSolido ){
+    public int guardarDataDB(String codigoProveedor, String porcentajeGrasa, String porcentajeSolido ){
         SubirDataPorcentajeEntity newData = new SubirDataPorcentajeEntity();
         newData.setCodigoProveedor(codigoProveedor);
         newData.setPorcentajeGrasa(porcentajeGrasa);
         newData.setPorcentajeSolido(porcentajeSolido);
         guardarData(newData);
         System.out.println("Archivo guardado exitosamente");
+        return 0;
     }
 
 

@@ -19,10 +19,9 @@ public class ReporteService {
 
     @Autowired
     private ReporteRepository repository;
-    public Void guardarReporte(ReporteEntity reporte){
+    public int guardarReporte(ReporteEntity reporte){
         repository.save(reporte);
-
-        return null;
+        return 0;
     }
     public ArrayList<ReporteEntity> obtenerData(){
         return (ArrayList<ReporteEntity>) repository.findAll();
