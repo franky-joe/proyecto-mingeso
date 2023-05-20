@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  postgres-db:
+    image: postgres
+    restart: always
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: curso
+      POSTGRES_PASSWORD: ruku
+      POSTGRES_DB: tingeso
+    ports:
+      - 5432:5432
+
+  app:
+    container_name: proyecto_docker
+    image: falopino/pep1
+    ports:
+      - "8090:8090"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/tingeso
+      - SPRING_DATASOURCE_USERNAME=curso
+      - SPRING_DATASOURCE_PASSWORD=ruku
+      - SERVER_PORT=8090
+    deploy:
+      restart_policy:
+        condition: on-failure
+    depends_on:
+      - postgres-db

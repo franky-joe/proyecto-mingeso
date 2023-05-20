@@ -14,7 +14,6 @@ public class Pep1Application {
 	@Generated
 	public static void main(String[] args) {
 		SpringApplication.run(Pep1Application.class, args);
-
 	}
 
 }

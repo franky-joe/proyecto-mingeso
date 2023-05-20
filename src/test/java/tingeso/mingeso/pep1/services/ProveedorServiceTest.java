@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 import tingeso.mingeso.pep1.entities.ProveedorEntity;
 import tingeso.mingeso.pep1.repositories.ProveedorRepository;
 
@@ -15,7 +16,7 @@ import java.util.Collections;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
+@SpringBootTest
 class ProveedorServiceTest {
     @Mock
     private ProveedorRepository repo;

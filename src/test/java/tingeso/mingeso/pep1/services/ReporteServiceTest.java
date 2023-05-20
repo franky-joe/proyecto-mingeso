@@ -1,8 +1,11 @@
+package tingeso.mingeso.pep1.services;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 import tingeso.mingeso.pep1.entities.ReporteEntity;
 import tingeso.mingeso.pep1.repositories.ReporteRepository;
 import tingeso.mingeso.pep1.services.ReporteService;
@@ -12,6 +15,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+@SpringBootTest
 
 public class ReporteServiceTest {
 

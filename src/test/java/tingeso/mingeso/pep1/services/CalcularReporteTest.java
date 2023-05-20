@@ -1,3 +1,5 @@
+package tingeso.mingeso.pep1.services;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -5,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 import tingeso.mingeso.pep1.entities.ProveedorEntity;
 import tingeso.mingeso.pep1.entities.ReporteEntity;
 import tingeso.mingeso.pep1.entities.SubirDataEntity;
@@ -17,7 +20,7 @@ import tingeso.mingeso.pep1.services.CalcularReporte;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+@SpringBootTest
 public class CalcularReporteTest {
 
     @Mock

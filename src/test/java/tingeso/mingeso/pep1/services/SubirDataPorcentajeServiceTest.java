@@ -1,3 +1,5 @@
+package tingeso.mingeso.pep1.services;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -5,10 +7,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import org.springframework.boot.test.context.SpringBootTest;
 import tingeso.mingeso.pep1.entities.SubirDataPorcentajeEntity;
 import tingeso.mingeso.pep1.repositories.SubirDataProcentajeRepository;
 import tingeso.mingeso.pep1.services.SubirDataPorcentajeService;
 
+@SpringBootTest
 
 public class SubirDataPorcentajeServiceTest {
     @Mock
