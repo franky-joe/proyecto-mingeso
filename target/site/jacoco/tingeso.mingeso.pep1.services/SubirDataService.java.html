@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SubirDataService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Tingeso</a> &gt; <a href="index.source.html" class="el_package">tingeso.mingeso.pep1.services</a> &gt; <span class="el_source">SubirDataService.java</span></div><h1>SubirDataService.java</h1><pre class="source lang-java linenums">package tingeso.mingeso.pep1.services;
+
+import tingeso.mingeso.pep1.entities.SubirDataEntity;
+import tingeso.mingeso.pep1.repositories.SubirDataRepository;
+import lombok.Generated;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+
+@Service
+<span class="fc" id="L23">public class SubirDataService {</span>
+
+    @Autowired
+    private SubirDataRepository dataRepository;
+
+<span class="fc" id="L28">    private final Logger logg = LoggerFactory.getLogger(SubirDataService.class);</span>
+
+    public ArrayList&lt;SubirDataEntity&gt; obtenerData(){
+<span class="nc" id="L31">        return (ArrayList&lt;SubirDataEntity&gt;) dataRepository.findAll();</span>
+    }
+
+    @Generated
+    public String guardar(MultipartFile file){
+        String filename = file.getOriginalFilename();
+        if(filename != null){
+            if(!file.isEmpty()){
+                try{
+                    byte [] bytes = file.getBytes();
+                    Path path  = Paths.get(file.getOriginalFilename());
+                    Files.write(path, bytes);
+                    logg.info(&quot;Archivo guardado&quot;);
+                }
+                catch (IOException e){
+                    logg.error(&quot;ERROR&quot;, e);
+                }
+            }
+            return &quot;Archivo guardado con exito!&quot;;
+        }
+        else{
+            return &quot;No se pudo guardar el archivo&quot;;
+        }
+    }
+
+    @Generated
+    public ArrayList&lt;SubirDataEntity&gt; leerCsv(String direccion){
+        ArrayList&lt;SubirDataEntity&gt; arregloAcopio = new ArrayList&lt;&gt;();
+
+        String texto = &quot;&quot;;
+        BufferedReader bf = null;
+        //dataRepository.deleteAll();
+        try{
+            bf = new BufferedReader(new FileReader(direccion));
+            String temp = &quot;&quot;;
+            String bfRead;
+            int count = 1;
+            while((bfRead = bf.readLine()) != null){
+                if (count == 1){
+                    count = 0;
+                }
+                else{
+                    SubirDataEntity acopio = new SubirDataEntity();
+                    acopio.setFecha(bfRead.split(&quot;;&quot;)[0]);
+                    acopio.setTurno(bfRead.split(&quot;;&quot;)[1]);
+                    acopio.setProveedor(bfRead.split(&quot;;&quot;)[2]);
+                    acopio.setKls_leche(bfRead.split(&quot;;&quot;)[3]);
+                    arregloAcopio.add(acopio);
+                    guardarData(acopio);
+                    //guardarDataDB(bfRead.split(&quot;;&quot;)[0], bfRead.split(&quot;;&quot;)[1], bfRead.split(&quot;;&quot;)[2], bfRead.split(&quot;;&quot;)[3]);
+                    temp = temp + &quot;\n&quot; + bfRead;
+                }
+            }
+            texto = temp;
+            System.out.println(&quot;Archivo leido exitosamente&quot;);
+
+            File archivo = new File(direccion);
+
+            if (archivo.delete()) {
+                System.out.println(&quot;El archivo fue eliminado exitosamente.&quot;);
+            } else {
+                System.out.println(&quot;No se pudo eliminar el archivo.&quot;);
+            }
+
+
+        }catch(Exception e){
+            System.err.println(&quot;No se encontro el archivo&quot;);
+        }finally{
+            if(bf != null){
+                try{
+                    bf.close();
+                }catch(IOException e){
+                    logg.error(&quot;ERROR&quot;, e);
+                }
+            }
+        }
+        return arregloAcopio;
+    }
+
+    public void guardarData(SubirDataEntity data){
+<span class="nc" id="L111">        dataRepository.save(data);</span>
+<span class="nc" id="L112">    }</span>
+
+    public void guardarDataDB(String fecha, String turno, String proveedor, String kls_leche){
+<span class="nc" id="L115">         SubirDataEntity newData = new SubirDataEntity();</span>
+<span class="nc" id="L116">         newData.setFecha(fecha);</span>
+<span class="nc" id="L117">         newData.setTurno(turno);</span>
+<span class="nc" id="L118">         newData.setProveedor(proveedor);</span>
+<span class="nc" id="L119">         newData.setKls_leche(kls_leche);</span>
+<span class="nc" id="L120">         guardarData(newData);</span>
+<span class="nc" id="L121">    }</span>
+    public void eliminarData(ArrayList&lt;SubirDataEntity&gt; datas){
+<span class="nc" id="L123">        dataRepository.deleteAll(datas);</span>
+<span class="nc" id="L124">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

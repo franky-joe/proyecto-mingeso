@@ -92,4 +92,56 @@ public class CalcularReporteTest {
         // Verificar el resultado
         Assertions.assertEquals("0", result);
     }
+    @Test
+    public void testCalcularReporte2() {
+        // Datos de prueba
+        ArrayList<SubirDataEntity> arrayAcopio = new ArrayList<>();
+
+        // Crear datos de prueba
+        SubirDataEntity subirDataEntity1 = new SubirDataEntity();
+        subirDataEntity1.setProveedor("123");
+        subirDataEntity1.setFecha("2023/05/01");
+        subirDataEntity1.setTurno("M");
+        subirDataEntity1.setKls_leche("100");
+
+        SubirDataEntity subirDataEntity2 = new SubirDataEntity();
+        subirDataEntity2.setProveedor("123");
+        subirDataEntity2.setFecha("2023/05/01");
+        subirDataEntity2.setTurno("T");
+        subirDataEntity2.setKls_leche("200");
+
+        arrayAcopio.add(subirDataEntity1);
+        arrayAcopio.add(subirDataEntity2);
+
+        // Simular el método findByCodigo() del repositorio de proveedores
+        ProveedorEntity proveedorEntity = new ProveedorEntity();
+        proveedorEntity.setCodigo("123");
+        proveedorEntity.setCategoria("B");
+        proveedorEntity.setRetencion("No");
+        Mockito.when(proveedorRepository.findByCodigo(Mockito.anyString())).thenReturn(proveedorEntity);
+
+        // Simular el método findAll() del repositorio de porcentajes
+        List<SubirDataPorcentajeEntity> porcentajes = new ArrayList<>();
+        SubirDataPorcentajeEntity porcentajeEntity = new SubirDataPorcentajeEntity();
+        porcentajeEntity.setCodigoProveedor("123");
+        porcentajeEntity.setPorcentajeGrasa("40");
+        porcentajeEntity.setPorcentajeSolido("7");
+        porcentajes.add(porcentajeEntity);
+        Mockito.when(subirDataProcentajeRepository.findAll()).thenReturn(porcentajes);
+
+        // Llamar al método a probar
+        String result = calcularReporte.calcularReporte(arrayAcopio);
+
+        // Verificar si el método save() del repositorio de reportes fue llamado correctamente
+        Mockito.verify(reporteRepository, Mockito.times(1)).save(Mockito.any(ReporteEntity.class));
+
+        // Verificar el resultado
+        Assertions.assertEquals("0", result);
+
+        // Verificar si el método save() del repositorio de reportes fue llamado correctamente
+        Mockito.verify(reporteRepository, Mockito.times(1)).save(Mockito.any(ReporteEntity.class));
+
+        // Verificar el resultado
+        Assertions.assertEquals("0", result);
+    }
 }

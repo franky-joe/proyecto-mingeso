@@ -64,7 +64,8 @@ public class CalcularReporte {
                     if("T".equals(data.getTurno())){
                         tarde++;
                     }
-                    if(diaAnterior != diaActual){
+                    if(!diaAnterior.equals(diaActual))
+                    {
                         diasEnviaLecheQuincena++;
                     }
                     klsLecheTotales = klsLecheTotales + Integer.valueOf(data.getKls_leche());
@@ -82,7 +83,10 @@ public class CalcularReporte {
             reporteNuevo.setTotalKilosLeche(klsLecheTotales);
             reporteNuevo.setNombreProveedor(proveedorRepository.findByCodigo(datoAcopio.getProveedor()).getNombre());
             reporteNuevo.setNumeroDiasEnvioLeche(diasEnviaLecheQuincena);
-            reporteNuevo.setPromedioDiarioKilosLeche((float) klsLecheTotales/diasEnviaLecheQuincena);
+            if (diasEnviaLecheQuincena != 0){
+                reporteNuevo.setPromedioDiarioKilosLeche((float) klsLecheTotales/diasEnviaLecheQuincena);
+
+            }
             reporteNuevo.setCodigoProveedor(datoAcopio.getProveedor());
 
 
@@ -189,7 +193,6 @@ public class CalcularReporte {
             }
             //montoTotal
             reporteNuevo.setMontoFinal((float) (pagoTotal - retencion));
-
 
 
             reporteRepository.save(reporteNuevo);

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CalcularReporte.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Tingeso</a> &gt; <a href="index.source.html" class="el_package">tingeso.mingeso.pep1.services</a> &gt; <span class="el_source">CalcularReporte.java</span></div><h1>CalcularReporte.java</h1><pre class="source lang-java linenums">package tingeso.mingeso.pep1.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import tingeso.mingeso.pep1.entities.ProveedorEntity;
+import tingeso.mingeso.pep1.entities.ReporteEntity;
+import tingeso.mingeso.pep1.entities.SubirDataEntity;
+import tingeso.mingeso.pep1.entities.SubirDataPorcentajeEntity;
+import tingeso.mingeso.pep1.repositories.ProveedorRepository;
+import tingeso.mingeso.pep1.repositories.ReporteRepository;
+import tingeso.mingeso.pep1.repositories.SubirDataProcentajeRepository;
+import tingeso.mingeso.pep1.repositories.SubirDataRepository;
+
+import javax.persistence.GeneratedValue;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Optional;
+
+import static java.lang.Math.*;
+
+@Service
+<span class="fc" id="L22">public class CalcularReporte {</span>
+
+    @Autowired
+    private ReporteRepository reporteRepository;
+    @Autowired
+    private ProveedorRepository proveedorRepository;
+    @Autowired
+    private SubirDataProcentajeRepository subirDataProcentajeRepository;
+
+
+    public String calcularReporte( ArrayList&lt;SubirDataEntity&gt; arrayAcopio){
+
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        while ( arrayAcopio.size() != 0){</span>
+<span class="fc" id="L35">            ReporteEntity reporteNuevo = new ReporteEntity();</span>
+<span class="fc" id="L36">            SubirDataEntity datoAcopio = new SubirDataEntity();</span>
+<span class="fc" id="L37">            datoAcopio = arrayAcopio.get(0);</span>
+            //conseguir fecha
+<span class="fc" id="L39">            String fechaStrin = datoAcopio.getFecha();</span>
+<span class="fc" id="L40">            String[] partes = fechaStrin.split(&quot;/&quot;);</span>
+<span class="fc" id="L41">            Integer ano = Integer.parseInt(partes[0]);</span>
+<span class="fc" id="L42">            Integer mes = Integer.parseInt(partes[1]);</span>
+<span class="fc" id="L43">            Integer dia = Integer.parseInt(partes[2]);</span>
+
+<span class="fc" id="L45">            Integer klsLecheTotales = 0;</span>
+<span class="fc" id="L46">            Integer diasEnviaLecheQuincena = 0;</span>
+<span class="fc" id="L47">            Integer tarde = 0;</span>
+<span class="fc" id="L48">            Integer manana = 0;</span>
+<span class="fc" id="L49">            Integer diaAnterior = -1;</span>
+
+<span class="fc" id="L51">            ArrayList&lt;SubirDataEntity&gt; elementosAEliminar = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L53" title="All 2 branches covered.">            for(SubirDataEntity data : arrayAcopio){</span>
+                //optener dia
+<span class="fc" id="L55">                String fechaStr = data.getFecha();</span>
+<span class="fc" id="L56">                String[] partes1 = fechaStr.split(&quot;/&quot;);</span>
+<span class="fc" id="L57">                Integer diaActual = Integer.parseInt(partes1[2]);</span>
+
+
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">                if(datoAcopio.getProveedor().equals(data.getProveedor()) ){</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">                    if(&quot;M&quot;.equals(data.getTurno())){</span>
+<span class="fc" id="L62">                        manana++;</span>
+                    }
+<span class="fc bfc" id="L64" title="All 2 branches covered.">                    if(&quot;T&quot;.equals(data.getTurno())){</span>
+<span class="fc" id="L65">                        tarde++;</span>
+                    }
+<span class="fc bfc" id="L67" title="All 2 branches covered.">                    if(!diaAnterior.equals(diaActual))</span>
+                    {
+<span class="fc" id="L69">                        diasEnviaLecheQuincena++;</span>
+                    }
+<span class="fc" id="L71">                    klsLecheTotales = klsLecheTotales + Integer.valueOf(data.getKls_leche());</span>
+<span class="fc" id="L72">                    diaAnterior = diaActual;</span>
+<span class="fc" id="L73">                    elementosAEliminar.add(data);</span>
+                }
+<span class="fc" id="L75">            }</span>
+<span class="fc" id="L76">            arrayAcopio.removeAll(elementosAEliminar);</span>
+            //completamos Reporte
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">            if(dia &gt; 15){</span>
+<span class="nc" id="L79">                reporteNuevo.setQuincena(ano + &quot;/&quot; + mes + &quot;/&quot; + 2);</span>
+            }else {
+<span class="fc" id="L81">                reporteNuevo.setQuincena(ano + &quot;/&quot; + mes + &quot;/&quot; + 1);</span>
+            }
+<span class="fc" id="L83">            reporteNuevo.setTotalKilosLeche(klsLecheTotales);</span>
+<span class="fc" id="L84">            reporteNuevo.setNombreProveedor(proveedorRepository.findByCodigo(datoAcopio.getProveedor()).getNombre());</span>
+<span class="fc" id="L85">            reporteNuevo.setNumeroDiasEnvioLeche(diasEnviaLecheQuincena);</span>
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">            if (diasEnviaLecheQuincena != 0){</span>
+<span class="fc" id="L87">                reporteNuevo.setPromedioDiarioKilosLeche((float) klsLecheTotales/diasEnviaLecheQuincena);</span>
+
+            }
+<span class="fc" id="L90">            reporteNuevo.setCodigoProveedor(datoAcopio.getProveedor());</span>
+
+
+            // Porcentajes
+<span class="fc" id="L94">            ArrayList&lt;SubirDataPorcentajeEntity&gt; listaPorcentajes = (ArrayList&lt;SubirDataPorcentajeEntity&gt;) subirDataProcentajeRepository.findAll();</span>
+<span class="fc" id="L95">            SubirDataPorcentajeEntity porcentajes = new SubirDataPorcentajeEntity();</span>
+<span class="fc" id="L96">            Float porcentajeGrasa = null;</span>
+<span class="fc" id="L97">            Float porcentajeST = null;</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">            for(SubirDataPorcentajeEntity por : listaPorcentajes){</span>
+
+<span class="fc" id="L100">                Float codigoPor = Float.parseFloat(por.getCodigoProveedor()) ;</span>
+<span class="fc" id="L101">                Float codigoComparar = Float.parseFloat(datoAcopio.getProveedor());</span>
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">                if(codigoPor.equals(codigoComparar)){</span>
+<span class="fc" id="L103">                    System.out.println(por);</span>
+<span class="fc" id="L104">                    System.out.println(&quot;por&quot;);</span>
+<span class="fc" id="L105">                    System.out.println(&quot;joooooooo&quot;);</span>
+<span class="fc" id="L106">                    porcentajeGrasa = Float.parseFloat(por.getPorcentajeGrasa());</span>
+<span class="fc" id="L107">                    porcentajeST = Float.parseFloat(por.getPorcentajeSolido());</span>
+                }
+<span class="fc" id="L109">            }</span>
+<span class="fc" id="L110">            reporteNuevo.setPorcentajeGrasa(porcentajeGrasa);</span>
+<span class="fc" id="L111">            reporteNuevo.setPorcentajeSolidosTotales(porcentajeST);</span>
+
+            //Pago por leche
+<span class="fc" id="L114">            ProveedorEntity proveedor = new ProveedorEntity();</span>
+<span class="fc" id="L115">            proveedor = proveedorRepository.findByCodigo(datoAcopio.getProveedor());</span>
+
+<span class="fc" id="L117">            Float pagoPorLeche=0.0F;</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">            if(proveedor.getCategoria().equals(&quot;A&quot;)){</span>
+<span class="fc" id="L119">                pagoPorLeche = (float) (700* klsLecheTotales);</span>
+<span class="fc" id="L120">                reporteNuevo.setPagoPorLeche(pagoPorLeche);</span>
+            }
+<span class="fc bfc" id="L122" title="All 2 branches covered.">            if(proveedor.getCategoria().equals(&quot;B&quot;)){</span>
+<span class="fc" id="L123">                pagoPorLeche = (float) (550* klsLecheTotales);</span>
+<span class="fc" id="L124">                reporteNuevo.setPagoPorLeche(pagoPorLeche);</span>
+            }
+<span class="pc bpc" id="L126" title="1 of 2 branches missed.">            if(proveedor.getCategoria().equals(&quot;C&quot;)){</span>
+<span class="nc" id="L127">                pagoPorLeche = (float) (400* klsLecheTotales);</span>
+<span class="nc" id="L128">                reporteNuevo.setPagoPorLeche(pagoPorLeche);</span>
+            }
+<span class="pc bpc" id="L130" title="1 of 2 branches missed.">            if(proveedor.getCategoria().equals(&quot;D&quot;)){</span>
+<span class="nc" id="L131">                pagoPorLeche = (float) (200* klsLecheTotales);</span>
+<span class="nc" id="L132">                reporteNuevo.setPagoPorLeche(pagoPorLeche);</span>
+            }
+            // Pago por Grasa
+<span class="fc" id="L135">            Float pagoPorGrasa = 0.0F;</span>
+<span class="fc bfc" id="L136" title="All 2 branches covered.">            if(porcentajeGrasa &lt; 21.0000F){</span>
+<span class="fc" id="L137">                pagoPorGrasa = porcentajeGrasa * 30;</span>
+<span class="fc" id="L138">                reporteNuevo.setPagoPorGrasa(pagoPorGrasa);</span>
+<span class="pc bpc" id="L139" title="1 of 2 branches missed.">            } else if (porcentajeGrasa &lt; 45.00000F) {</span>
+<span class="fc" id="L140">                pagoPorGrasa = porcentajeGrasa * 80;</span>
+<span class="fc" id="L141">                reporteNuevo.setPagoPorGrasa(pagoPorGrasa);</span>
+
+            }else{
+<span class="nc" id="L144">                pagoPorGrasa = porcentajeGrasa * 120;</span>
+<span class="nc" id="L145">                reporteNuevo.setPagoPorGrasa(pagoPorGrasa);</span>
+            }
+            // Pago por ST
+<span class="fc" id="L148">            Float pagoPorST=0.0F;</span>
+<span class="fc bfc" id="L149" title="All 2 branches covered.">            if(porcentajeST &lt; 8 ){</span>
+<span class="fc" id="L150">                pagoPorST = porcentajeST * -130;</span>
+<span class="fc" id="L151">                reporteNuevo.setPagoPorSolidosTotales(pagoPorST);</span>
+<span class="pc bpc" id="L152" title="1 of 2 branches missed.">            } else if (porcentajeST &lt; 19) {</span>
+<span class="fc" id="L153">                pagoPorST = porcentajeST * -90;</span>
+<span class="fc" id="L154">                reporteNuevo.setPagoPorSolidosTotales(pagoPorST);</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">            } else if (porcentajeST &lt; 36) {</span>
+<span class="nc" id="L156">                pagoPorST = porcentajeST * 95;</span>
+<span class="nc" id="L157">                reporteNuevo.setPagoPorSolidosTotales(pagoPorST);</span>
+            }else {
+<span class="nc" id="L159">                pagoPorST = porcentajeST * 150;</span>
+<span class="nc" id="L160">                reporteNuevo.setPagoPorSolidosTotales(pagoPorST);</span>
+            }
+            // Bonificacion frecuencia
+<span class="fc" id="L163">            int restaDias = tarde - manana;</span>
+<span class="fc" id="L164">            Float pagoBonifica = 0.0F;</span>
+<span class="pc bpc" id="L165" title="1 of 2 branches missed.">            if (Math.abs(restaDias) &gt; 10 ) {</span>
+<span class="nc" id="L166">                pagoBonifica = (float) (pagoPorLeche * 0.2);</span>
+<span class="nc" id="L167">                reporteNuevo.setBonificacionPorFrecuencia(pagoBonifica);</span>
+<span class="pc bpc" id="L168" title="1 of 2 branches missed.">            } else if ( manana &gt; 10) {</span>
+<span class="nc" id="L169">                pagoBonifica = (float) (pagoPorLeche * 0.12);</span>
+<span class="nc" id="L170">                reporteNuevo.setBonificacionPorFrecuencia(pagoBonifica);</span>
+
+<span class="pc bpc" id="L172" title="1 of 2 branches missed.">            } else if ( tarde &gt; 10) {</span>
+<span class="nc" id="L173">                pagoBonifica = (float) (pagoPorLeche * 0.08);</span>
+<span class="nc" id="L174">                reporteNuevo.setBonificacionPorFrecuencia(pagoBonifica);</span>
+
+            }else{
+<span class="fc" id="L177">                reporteNuevo.setBonificacionPorFrecuencia(pagoBonifica);</span>
+            }
+            // Pago acopio leche
+
+            float pagoTotal;
+<span class="fc" id="L182">            pagoTotal = pagoPorLeche + pagoPorGrasa + pagoPorST + pagoBonifica;</span>
+<span class="fc" id="L183">            reporteNuevo.setPagoTotal(pagoTotal);</span>
+            // Retencion
+<span class="fc" id="L185">            double retencion = 0;</span>
+
+<span class="pc bpc" id="L187" title="3 of 4 branches missed.">            if(proveedor.getRetencion().equals(&quot;Si&quot;) &amp;&amp; pagoTotal &gt; 950000){</span>
+
+<span class="nc" id="L189">                retencion = pagoTotal * 0.13;</span>
+<span class="nc" id="L190">                reporteNuevo.setMontoRetencion((float) retencion);</span>
+            }else {
+<span class="fc" id="L192">                reporteNuevo.setMontoRetencion(0.0F);</span>
+            }
+            //montoTotal
+<span class="fc" id="L195">            reporteNuevo.setMontoFinal((float) (pagoTotal - retencion));</span>
+
+
+<span class="fc" id="L198">            reporteRepository.save(reporteNuevo);</span>
+<span class="fc" id="L199">        }</span>
+<span class="fc" id="L200">        return &quot;0&quot;;</span>
+    }
+
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReporteService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Tingeso</a> &gt; <a href="index.source.html" class="el_package">tingeso.mingeso.pep1.services</a> &gt; <span class="el_source">ReporteService.java</span></div><h1>ReporteService.java</h1><pre class="source lang-java linenums">package tingeso.mingeso.pep1.services;
+
+import jdk.jfr.ValueDescriptor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import tingeso.mingeso.pep1.entities.ProveedorEntity;
+import tingeso.mingeso.pep1.entities.ReporteEntity;
+import tingeso.mingeso.pep1.entities.SubirDataEntity;
+import tingeso.mingeso.pep1.entities.SubirDataPorcentajeEntity;
+import tingeso.mingeso.pep1.repositories.ProveedorRepository;
+import tingeso.mingeso.pep1.repositories.ReporteRepository;
+import tingeso.mingeso.pep1.repositories.SubirDataProcentajeRepository;
+import tingeso.mingeso.pep1.repositories.SubirDataRepository;
+
+import java.util.ArrayList;
+
+@Service
+<span class="fc" id="L18">public class ReporteService {</span>
+
+    @Autowired
+    private ReporteRepository repository;
+    public int guardarReporte(ReporteEntity reporte){
+<span class="fc" id="L23">        repository.save(reporte);</span>
+<span class="fc" id="L24">        return 0;</span>
+    }
+    public ArrayList&lt;ReporteEntity&gt; obtenerData(){
+<span class="fc" id="L27">        return (ArrayList&lt;ReporteEntity&gt;) repository.findAll();</span>
+    }
+
+
+    /*
+    @Autowired
+    private ProveedorService proveedorService;
+    @Autowired
+    private SubirDataService subirDataService;
+    @Autowired
+    private SubirDataPorcentajeService subirDataPorcentajeService;
+
+    private ArrayList&lt;ProveedorEntity&gt; listaProveedores = proveedorService.obtenerProveedores();
+    private ArrayList&lt;SubirDataEntity&gt; listaData = subirDataService.obtenerData();
+    private ArrayList&lt;SubirDataPorcentajeEntity&gt; listaDataPorcentajes = subirDataPorcentajeService.obtenerData();
+    */
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
